@@ -5,6 +5,7 @@ const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const helmet = require('helmet');
 const orderRoutes = require('./routes/orderRoutes');
+const path = require("path");
 
 require('dotenv').config();
 require('express-async-errors');
@@ -17,6 +18,9 @@ if(!process.env.JWT_SECRET){
 
 //app.use(helmet());
 app.use(bodyParser.json());
+
+// Serve static files from the 'client' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/api', authRoutes);

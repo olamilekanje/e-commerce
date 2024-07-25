@@ -4,8 +4,8 @@ const { protect } = require('../Middleware/authMiddleware');
 
 const router = express.Router();
 
-router.get('/products',getProducts);
-router.post('/create-product', protect, createProduct);
+router.get('/allProducts',getProducts);
+router.post('/create-product', protect, createProduct); 
 
 router.get('/product/:id',getProductById);
 router.put('/product/update/:id',protect, updateProduct)
