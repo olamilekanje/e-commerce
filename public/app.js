@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://e-commerce-6fzgni4h1-olamilekanjes-projects.vercel.app';
 
 // Register User
 async function register() {
