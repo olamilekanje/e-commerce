@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const connectDB = require('../config/db');
 const authRoutes = require('../routes/authRoutes');
 const productRoutes = require('../routes/productRoutes');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const orderRoutes = require('../routes/orderRoutes');
@@ -18,6 +19,7 @@ if(!process.env.JWT_SECRET){
     console.log("Invalid JWT Secret provided");
 }
 
+app.use(cors());
 
 app.use(cookieParser());
 app.use(bodyParser.json());

@@ -1,4 +1,4 @@
-const API_URL = 'https://e-commerce-6fzgni4h1-olamilekanjes-projects.vercel.app';
+const API_URL = 'https://e-commerce-orpin-seven.vercel.app';
 
 // Register User
 async function register() {
@@ -81,9 +81,13 @@ async function fetchProducts() {
       productList.appendChild(productItem);
     });
   } catch (error) {
-    alert(error.response.data.message);
-    alert('Failed to fetch products', error.response.data.error);
+    if (error.response && error.response.data && error.response.data.message) {
+      alert(error.response.data.message);  // Specific error message from the server
+    } else {
+      alert('Failed to fetch products');  // General error message
+    }
   }
+  
 }
 
 // Event Listeners
