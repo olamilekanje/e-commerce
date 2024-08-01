@@ -12,9 +12,9 @@ exports.protect = async (req, res, next) => {
     try {
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = await User.findOne(decoded.id);
+      req.user = await User.findOne(decoded._id);
 
-      if(!user){
+    if(!req.user){
         throw new Error();
        
       }

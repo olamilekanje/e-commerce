@@ -27,7 +27,7 @@
           <label for="password">Password</label>
           <input type="password" class="form-control" id="password" placeholder="Password">
         </div>
-        <button type="button" class="btn btn-primary" onclick="register()">Register</button>
+        <button type="button" class="btn btn-primary" id="registerBtn">Register</button>
       </form>
     </div>
 
@@ -42,14 +42,36 @@
           <label for="login-password">Password</label>
           <input type="password" class="form-control" id="login-password" placeholder="Password">
         </div>
-        <button type="button" class="btn btn-primary" onclick="login()">Login</button>
+        <button type="button" class="btn btn-primary" id="loginBtn">Login</button>
       </form>
     </div>
 
-    <!-- add products -->
-
-
-    
+    <div id="createProduct" class="mt-5">
+      <h2>Create Product</h2>
+      <form>
+        <div class="form-group">
+          <label for="product-name">Product Name</label>
+          <input type="text" class="form-control" id="product-name" placeholder="Enter name">
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input type="text" class="form-control" id="description" placeholder="Enter description">
+        </div>
+        <div class="form-group">
+          <label for="price">Price</label>
+          <input type="text" class="form-control" id="price" placeholder="Enter price">
+        </div>
+        <div class="form-group">
+          <label for="category">Category</label>
+          <input type="text" class="form-control" id="category" placeholder="Enter category">
+        </div>
+        <div class="form-group">
+          <label for="stock">Stock</label>
+          <input type="text" class="form-control" id="stock" placeholder="Enter stock">
+        </div>
+        <button type="button" class="btn btn-primary" id="createProductBtn">Submit</button>
+      </form>
+    </div>
 
     <div id="product-list" class="mt-5">
       <h2>Products</h2>
@@ -58,7 +80,7 @@
   </div>
 
   <!-- Axios and Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="axios.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
   <script src="app.js"></script>
 </body>

@@ -14,7 +14,11 @@ async function register() {
     });
     alert(response.data.message);
   } catch (error) {
-    alert(error.response.error);
+    if (error.response && error.response.data && error.response.data.message) {
+      alert(error.response.data.message);  // Specific error message from the server
+    } else {
+      alert(error.message);  // General error message
+    }
   }
 }
 
@@ -24,27 +28,50 @@ async function login() {
   const password = document.getElementById('login-password').value;
 
   try {
+    console.log(email, password);
     const response = await axios.post(`${API_URL}/api/login`, {
       email,
       password
     });
     alert('Login successful');
-    localStorage.setItem('accessToken', response.data.token);
+
     fetchProducts();
   } catch (error) {
     alert(error.response.data.error);
   }
 }
 
+// Create Product
+async function createProduct() {
+  const name = document.getElementById('product-name').value;
+  const description = document.getElementById('description').value;
+  const price = document.getElementById('price').value;
+  const category = document.getElementById('category').value;
+  const stock = document.getElementById('stock').value;
+  try {
+    const response = await axios.post(`${API_URL}/api/products/create-product`, {
+      name,
+      description,
+      price,
+      category,
+      stock
+    });
+    alert(response.data.message);
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.message) {
+      alert(error.response.data.message);  // Specific error message from the server
+    } else {
+      alert(error.message);  // General error message
+    }
+  }
+}
+
 // Fetch Products
 async function fetchProducts() {
   try {
-    const response = await axios.get(`${API_URL}/api/allProducts`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-      }
-    });
+    const response = await axios.get(`${API_URL}/api/products/allProducts`);
     const products = response.data;
+    console.log(products);
     const productList = document.getElementById('products');
     productList.innerHTML = '';
     products.forEach(product => {
@@ -54,6 +81,15 @@ async function fetchProducts() {
       productList.appendChild(productItem);
     });
   } catch (error) {
-    alert('Failed to fetch products');
+    alert(error.response.data.message);
+    alert('Failed to fetch products', error.response.data.error);
   }
 }
+
+// Event Listeners
+document.getElementById('registerBtn').addEventListener('click', register);
+document.getElementById('loginBtn').addEventListener('click', login);
+document.getElementById('createProductBtn').addEventListener('click', createProduct);
+
+// Fetch products on page load
+fetchProducts();

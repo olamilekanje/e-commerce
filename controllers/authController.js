@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const { sendActivationEmail } = require('../validations/activateAccount');
 const { generateUniqueChars } = require('../validations/utils');
-const { validateRegister } = require('../validations/postValidation');
+const { validateRegister } = require('../validations/registerValidation');
 require('dotenv').config();
 
 exports.register = async (req, res) => {
@@ -22,11 +22,6 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: "Email Already Exist" });
     }
 
-
-    const salt = await bcryptjs.genSalt(10);
-
-   const hashedPassword = await bcryptjs.hash(password, salt);
-
    const activationToken = generateUniqueChars(32);
    const activationTokenExpires = Date.now() + 20 * 60 *1000;
 
@@ -36,7 +31,7 @@ exports.register = async (req, res) => {
     const user = new User({
         name,
         email,
-        password:hashedPassword,
+        password,
       
       });
 
@@ -89,24 +84,32 @@ exports.register = async (req, res) => {
 
   await user.save();
 
-  res.status(200).json({msg:"Account Activated Succesfully"});
+  res.status(200).json({message:"Account Activated Succesfully"});
 
 }
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   try {
+   
     const user = await User.findOne({ email });
-    if (!user || !(await user.matchPassword(password))) {
-      return res.status(400).json({ error: 'Invalid credentials' });
+    
+    if (!user) {
+      return res.status(400).json({ error: 'Invalid email' });
+    }
+
+    if(!(await user.matchPassword(password))){
+      return res.status(400).json({ error: 'invalid email or password' });
+
     }
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
     res.cookie('accessToken', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV =='production'
   });
-    res.json({msg: "Login Sucessful", token });
+    res.json({message: "Login Sucessful"}); 
   } catch (error) {
+    console.log(error);
     res.status(400).json({ error: error.message }); 
   }
 };

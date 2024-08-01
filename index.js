@@ -3,9 +3,11 @@ const bodyParser = require('body-parser');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
+const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const orderRoutes = require('./routes/orderRoutes');
 const path = require("path");
+const { protect } = require('./Middleware/authMiddleware');
 
 require('dotenv').config();
 require('express-async-errors');
@@ -16,8 +18,11 @@ if(!process.env.JWT_SECRET){
     console.log("Invalid JWT Secret provided");
 }
 
-//app.use(helmet());
+
+app.use(cookieParser());
 app.use(bodyParser.json());
+app.use(helmet());
+
 
 // Serve static files from the 'client' directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -25,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', authRoutes);
 app.use('/api/products', productRoutes);
-app.use('/api/orders', orderRoutes);
+app.use('/api/orders', protect, orderRoutes);
 
 
 connectDB();

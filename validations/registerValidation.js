@@ -1,23 +1,7 @@
 const yup = require('yup');
 
-async function validatePost(data){
 
-  const schema = yup.object().shape({
-    title: yup.string().min(3).required(),
-    body: yup.string().min(3).required()
-  });
 
-  try{
-    await schema.validate(data);
-
-    return null;
-
-  }catch(error){
-   // console.log(error.errors[0]);
-      return error.errors[0];
-  }
-
-}
 async function validateRegister(data){
   
     const schema = yup.object().shape({
@@ -36,5 +20,5 @@ async function validateRegister(data){
     }
     
     }
-    module.exports.validatePost = validatePost;
+  
     module.exports.validateRegister = validateRegister;

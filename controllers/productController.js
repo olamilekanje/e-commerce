@@ -24,10 +24,16 @@ exports.getProductById = async (req, res) => {
 
 exports.createProduct = async (req, res) => {
   const { name, description, price, category, stock } = req.body;
+
+      if(!name || !description || !price || !stock || !category){
+          console.log('fill all fields');
+        return res.status(400).json({message:'All field are compulsory'});
+
+      }
   try {
     const product = new Product({ name, description, price, category, stock });
     await product.save();
-    res.status(201).json(product);
+    res.status(201).json({message: "Product Created!"});
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
